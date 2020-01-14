@@ -191,24 +191,24 @@ class ActionView: UIView {
                 thetaOne.sizeToFit()
                 
                 var h: CGFloat = 0
-                
+                var a: CGFloat = 0
                 if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
                     antennaLines[offset][0].strokeColor = UIColor.green.cgColor
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin)
+                    a = sqrt(pow(nodeOrigin.x - $0.element[0].frame.origin.x, 2))
                     thetaOne.frame.origin = CGPoint(x: $0.element[0].frame.origin.x + 10, y: $0.element[0].frame.origin.y + 10)
                 }
                 else{
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin)
+                    a = sqrt(pow(nodeOrigin.x - $0.element[1].frame.origin.x, 2))
                     antennaLines[offset][1].strokeColor = UIColor.green.cgColor
                     thetaOne.frame.origin = CGPoint(x: $0.element[1].frame.origin.x - thetaOne.frame.width - 10, y: $0.element[1].frame.origin.y + 10)
                 }
                 
-                let a = sqrt(pow(nodeOrigin.x - $0.element[0].frame.origin.x, 2))
-                let theta = acos(a/h)
-                thetaOne.text = "Theta = \(theta*180/CGFloat.pi)"
                 
+                let theta = round((acos(a/h)*180/CGFloat.pi)*100)/100
+                thetaOne.text = "Theta = \(theta)"
                 
-                 
             case 1:
                 let offset = 1
                 $0.element.enumerated().forEach{ antenna in
@@ -228,17 +228,23 @@ class ActionView: UIView {
                 
                 thetaTwo.sizeToFit()
                 var h: CGFloat = 0
+                var a: CGFloat = 0
                 
                 if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin)
+                    a = sqrt(pow(nodeOrigin.x - $0.element[0].frame.origin.x, 2))
                     antennaLines[offset][0].strokeColor = UIColor.green.cgColor
                     thetaTwo.frame.origin = CGPoint(x: $0.element[0].frame.origin.x + 10, y: $0.element[0].frame.origin.y - thetaTwo.frame.height - 10)
                 }
                 else{
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin)
+                    a = sqrt(pow(nodeOrigin.x - $0.element[1].frame.origin.x, 2))
                     antennaLines[offset][1].strokeColor = UIColor.green.cgColor
-                    thetaTwo.frame.origin = CGPoint(x: $0.element[1].frame.origin.x - 10 - thetaOne.frame.width, y: $0.element[1].frame.origin.y - thetaTwo.frame.height - 10)
+                    thetaTwo.frame.origin = CGPoint(x: $0.element[1].frame.origin.x - 10 - thetaTwo.frame.width, y: $0.element[1].frame.origin.y - thetaTwo.frame.height - 10)
                 }
+                
+                let theta = round((acos(a/h)*180/CGFloat.pi)*100)/100
+                thetaTwo.text = "Theta = \(theta)"
                  
             case 2:
                 let offset = 2
@@ -259,17 +265,23 @@ class ActionView: UIView {
                 
                 thetaThree.sizeToFit()
                 var h: CGFloat = 0
+                var a: CGFloat = 0
                 
                 if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin)
+                    a = sqrt(pow(nodeOrigin.y - $0.element[0].frame.origin.y, 2))
                     antennaLines[offset][0].strokeColor = UIColor.green.cgColor
                     thetaThree.frame.origin = CGPoint(x: $0.element[0].frame.origin.x + 10, y: $0.element[0].frame.origin.y + 10)
                 }
                 else{
                     antennaLines[offset][1].strokeColor = UIColor.green.cgColor
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin)
+                    a = sqrt(pow(nodeOrigin.y - $0.element[1].frame.origin.y, 2))
                     thetaThree.frame.origin = CGPoint(x: $0.element[1].frame.origin.x + 10, y: $0.element[1].frame.origin.y - 10 - thetaThree.frame.height)
                 }
+                
+                let theta = round((acos(a/h)*180/CGFloat.pi)*100)/100
+                thetaThree.text = "Theta = \(theta)"
                 
             case 3:
                 let offset = 3
@@ -290,17 +302,23 @@ class ActionView: UIView {
                 
                 thetaFour.sizeToFit()
                 var h: CGFloat = 0
+                var a: CGFloat = 0
                 
                 if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin)
+                    a = sqrt(pow(nodeOrigin.y - $0.element[0].frame.origin.y, 2))
                     antennaLines[offset][0].strokeColor = UIColor.green.cgColor
-                    thetaFour.frame.origin = CGPoint(x: $0.element[0].frame.origin.x - thetaOne.frame.width - 10, y: $0.element[0].frame.origin.y + 10)
+                    thetaFour.frame.origin = CGPoint(x: $0.element[0].frame.origin.x - thetaFour.frame.width - 10, y: $0.element[0].frame.origin.y + 10)
                 }
                 else{
                     h = CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin)
+                    a = sqrt(pow(nodeOrigin.y - $0.element[1].frame.origin.y, 2))
                     antennaLines[offset][1].strokeColor = UIColor.green.cgColor
-                    thetaFour.frame.origin = CGPoint(x: $0.element[1].frame.origin.x - thetaOne.frame.width - 10, y: $0.element[1].frame.origin.y - 10 - thetaFour.frame.height)
+                    thetaFour.frame.origin = CGPoint(x: $0.element[1].frame.origin.x - thetaFour.frame.width - 10, y: $0.element[1].frame.origin.y - 10 - thetaFour.frame.height)
                 }
+                
+                let theta = round((acos(a/h)*180/CGFloat.pi)*100)/100
+                thetaFour.text = "Theta = \(theta)"
                 
             default:break
                 
