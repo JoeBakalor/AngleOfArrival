@@ -18,6 +18,11 @@ class ActionView: UIView {
         [CAShapeLayer(), CAShapeLayer()]
     ]
     
+    let thetaOne = UILabel()
+    let thetaTwo = UILabel()
+    let thetaThree = UILabel()
+    
+    private let signalColor = UIColor.lightGray.cgColor
     private var pulseArray = [CAShapeLayer]()
     
     let node = CAShapeLayer()
@@ -44,7 +49,7 @@ class ActionView: UIView {
     }
     
     internal func initView() {
-        self.backgroundColor = UIColor.yellow
+        self.backgroundColor = UIColor.white
         antennas.forEach{
             $0.forEach{ antenna in
                 self.layer.addSublayer(antenna)
@@ -116,7 +121,7 @@ class ActionView: UIView {
     func animatePulsatingLayerAt(index:Int) {
         
         //Giving color to the layer
-        pulseArray[index].strokeColor = UIColor.green.cgColor
+        pulseArray[index].strokeColor = signalColor
         
         //Creating scale animation for the layer, from and to value should be in range of 0.0 to 1.0
         // 0.0 = minimum
@@ -174,8 +179,15 @@ class ActionView: UIView {
                     let origin = antenna.element.frame.origin
                     line.move(to: CGPoint(x: origin.x + 5, y: origin.y + 5))
                     line.addLine(to: CGPoint(x: nodeOrigin.x + 5, y: nodeOrigin.y + 5))
-                    antennaLines[offset][i].strokeColor = UIColor.blue.cgColor
+                    antennaLines[offset][i].strokeColor = UIColor.clear.cgColor
                     antennaLines[offset][i].path = line.cgPath
+                }
+                
+                if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
+                    antennaLines[offset][0].strokeColor = UIColor.green.cgColor
+                }
+                else{
+                    antennaLines[offset][1].strokeColor = UIColor.green.cgColor
                 }
                 
                  
@@ -192,8 +204,15 @@ class ActionView: UIView {
                     let origin = antenna.element.frame.origin
                     line.move(to: CGPoint(x: origin.x + 5, y: origin.y + 5))
                     line.addLine(to: CGPoint(x: nodeOrigin.x + 5, y: nodeOrigin.y + 5))
-                    antennaLines[offset][i].strokeColor = UIColor.blue.cgColor
+                    antennaLines[offset][i].strokeColor = UIColor.clear.cgColor
                     antennaLines[offset][i].path = line.cgPath
+                }
+                
+                if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
+                    antennaLines[offset][0].strokeColor = UIColor.green.cgColor
+                }
+                else{
+                    antennaLines[offset][1].strokeColor = UIColor.green.cgColor
                 }
                  
             case 2:
@@ -209,9 +228,17 @@ class ActionView: UIView {
                     let origin = antenna.element.frame.origin
                     line.move(to: CGPoint(x: origin.x + 5, y: origin.y + 5))
                     line.addLine(to: CGPoint(x: nodeOrigin.x + 5, y: nodeOrigin.y + 5))
-                    antennaLines[offset][i].strokeColor = UIColor.blue.cgColor
+                    antennaLines[offset][i].strokeColor = UIColor.clear.cgColor
                     antennaLines[offset][i].path = line.cgPath
                 }
+                
+                if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
+                    antennaLines[offset][0].strokeColor = UIColor.green.cgColor
+                }
+                else{
+                    antennaLines[offset][1].strokeColor = UIColor.green.cgColor
+                }
+                
             case 3:
                 let offset = 3
                 $0.element.enumerated().forEach{ antenna in
@@ -225,15 +252,31 @@ class ActionView: UIView {
                     let origin = antenna.element.frame.origin
                     line.move(to: CGPoint(x: origin.x + 5, y: origin.y + 5))
                     line.addLine(to: CGPoint(x: nodeOrigin.x + 5, y: nodeOrigin.y + 5))
-                    antennaLines[offset][i].strokeColor = UIColor.blue.cgColor
+                    antennaLines[offset][i].strokeColor = UIColor.clear.cgColor
                     antennaLines[offset][i].path = line.cgPath
                 }
+                
+                if CGPointDistance(from: nodeOrigin, to: $0.element[0].frame.origin) > CGPointDistance(from: nodeOrigin, to: $0.element[1].frame.origin){
+                    antennaLines[offset][0].strokeColor = UIColor.green.cgColor
+                }
+                else{
+                    antennaLines[offset][1].strokeColor = UIColor.green.cgColor
+                }
+                
             default:break
                 
             }
         }
         
         //nodeOrigin = CGPoint(x: self.frame.midX, y: self.frame.midY)
+    }
+    
+    func CGPointDistanceSquared(from: CGPoint, to: CGPoint) -> CGFloat {
+        return (from.x - to.x) * (from.x - to.x) + (from.y - to.y) * (from.y - to.y)
+    }
+
+    func CGPointDistance(from: CGPoint, to: CGPoint) -> CGFloat {
+        return sqrt(CGPointDistanceSquared(from: from, to: to))
     }
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
@@ -243,6 +286,7 @@ class ActionView: UIView {
         pulseArray.forEach{
             $0.frame.origin = nodeOrigin
         }
+        layoutSubviews()
         return self
     }
     
